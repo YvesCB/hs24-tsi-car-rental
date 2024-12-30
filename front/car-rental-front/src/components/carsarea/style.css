@@ -1,0 +1,7 @@
+/* Cars Area Layout */
+.cars-area {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 200px);
+  gap: 2rem;
+  padding-block: 2rem;
+}

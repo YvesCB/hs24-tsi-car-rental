@@ -1,0 +1,12 @@
+main {
+  margin: 2em;
+  padding: 0 1em; /* Optional: padding for inner spacing */
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: flex-start; /* Align content at the top of the main area */
+}
+
+main > * {
+  max-width: 100em;
+  width: 100%; /* Allow content to scale within the main area */
+}
