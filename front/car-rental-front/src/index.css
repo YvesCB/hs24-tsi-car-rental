@@ -41,3 +41,7 @@
     --color-accent-hover: #003f88; /* Even darker blue for hover effects */
   }
 }
+
+#root {
+  height: 100%;
+}
