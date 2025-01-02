@@ -1,6 +1,7 @@
 package ch.juventus.car_rental.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,9 +29,19 @@ public class BookingService {
         return bookingRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
+    // private List<Booking> findAllByCarId(Long carId) {
+    // List<Booking> bookings = bookingRepository.findAll();
+    // List<Booking> bookingsByCarId = bookings.stream().filter((booking) ->
+    // booking.getCar().getId() == carId)
+    // .collect(Collectors.toList());
+    //
+    // return bookingsByCarId;
+    // }
+
     public List<Booking> getAllByCarId(Long carId) {
         carService.existsById(carId);
-        List<Booking> bookings = bookingRepository.findBookingsByCarId(carId);
+        // List<Booking> bookings = findAllByCarId(carId);
+        List<Booking> bookings = bookingRepository.findAllByCarId(carId);
         return bookings;
     }
 
@@ -41,7 +52,7 @@ public class BookingService {
         }
 
         // Validate: Check for overlapping bookings for the same car
-        List<Booking> existingBookings = bookingRepository.findBookingsByCarId(booking.getCar().getId());
+        List<Booking> existingBookings = bookingRepository.findAllByCarId(booking.getCar().getId());
         for (Booking existingBooking : existingBookings) {
             boolean overlaps = booking.getFromDate().isBefore(existingBooking.getToDate()) &&
                     booking.getToDate().isAfter(existingBooking.getFromDate());
