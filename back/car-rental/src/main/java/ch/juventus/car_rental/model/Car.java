@@ -1,10 +1,9 @@
 package ch.juventus.car_rental.model;
 
-import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Car
- */
+import jakarta.persistence.*;
 
 @Entity
 public class Car {
@@ -22,17 +21,8 @@ public class Car {
     @JoinColumn(name = "type_id") // Foreign key column in Car table
     private Type type;
 
-    /*
-     * public Car(Long id, String name, String brand, int yearOfConstruction,
-     * boolean automatic, String type) {
-     * this.id = id;
-     * this.name = name;
-     * this.brand = brand;
-     * this.yearOfConstruction = yearOfConstruction;
-     * this.automatic = automatic;
-     * this.type = type;
-     * }
-     */
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Booking> bookings = new ArrayList<>();
 
     // Getters and Setters
     public Long getId() {
@@ -81,5 +71,14 @@ public class Car {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    // Add a getter and setter for the bookings field
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }

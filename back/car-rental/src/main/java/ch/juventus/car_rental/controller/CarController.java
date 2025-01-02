@@ -2,11 +2,12 @@ package ch.juventus.car_rental.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import ch.juventus.car_rental.model.*;
-import ch.juventus.car_rental.repository.*;
+import ch.juventus.car_rental.service.CarService;
 
 /**
  * CarController
@@ -14,55 +15,40 @@ import ch.juventus.car_rental.repository.*;
 @RestController
 @RequestMapping("/api/cars")
 public class CarController {
-    @Autowired
-    private CarRepository carRepository;
+    private CarService carService;
 
-    @Autowired
-    private TypeRepository typeRepository;
+    public CarController(CarService carService) {
+        this.carService = carService;
+    }
 
     @GetMapping
-    public List<Car> getAllCars() {
-        return carRepository.findAll();
+    public List<Car> findAll() {
+        return carService.findAll();
     }
 
     @GetMapping("/{id}")
     public Car getCarById(@PathVariable Long id) {
-        return carRepository.findById(id).orElseThrow(() -> new RuntimeException("Car not found"));
+        return carService.findById(id);
     }
 
     @PostMapping
-    public Car createCar(@RequestBody Car car) {
+    public ResponseEntity<Car> createCar(@RequestBody Car car) {
         // Resolve type id
-        if (car.getType() != null && car.getType().getId() != null) {
-            Type type = typeRepository.findById(car.getType().getId())
-                    .orElseThrow(() -> new RuntimeException("Type not found"));
-            car.setType(type);
-        }
-        return carRepository.save(car);
+
+        Car savedCar = carService.create(car);
+        return ResponseEntity.ok(savedCar);
     }
 
     @PutMapping("/{id}")
-    public Car updateCar(@PathVariable Long id, @RequestBody Car carDetails) {
-        Car car = carRepository.findById(id).orElseThrow(() -> new RuntimeException("Car not found"));
+    public ResponseEntity<Car> updateCar(@PathVariable Long id, @RequestBody Car carDetails) {
 
-        car.setName(carDetails.getName());
-        car.setBrand(carDetails.getBrand());
-        car.setYearOfConstruction(carDetails.getYearOfConstruction());
-        car.setAutomatic(carDetails.isAutomatic());
-        car.setType(carDetails.getType());
-
-        if (carDetails.getType() != null && carDetails.getType().getId() != null) {
-            Type type = typeRepository.findById(carDetails.getType().getId())
-                    .orElseThrow(() -> new RuntimeException("Type not found"));
-            car.setType(type);
-        }
-
-        return carRepository.save(car);
+        Car updatedCar = carService.update(id, carDetails);
+        return ResponseEntity.ok(updatedCar);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCar(@PathVariable Long id) {
-        Car car = carRepository.findById(id).orElseThrow(() -> new RuntimeException("Car not found"));
-        carRepository.delete(car);
+    public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
+        carService.delete(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 }

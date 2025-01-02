@@ -1,8 +1,10 @@
 package ch.juventus.car_rental.controller;
 
 import ch.juventus.car_rental.model.*;
-import ch.juventus.car_rental.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import ch.juventus.car_rental.service.TypeService;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,37 +13,38 @@ import java.util.List;
 @RequestMapping("/api/types")
 public class TypeController {
 
-    @Autowired
-    private TypeRepository typeRepository;
+    private final TypeService typeService;
+
+    public TypeController(TypeService typeService) {
+        this.typeService = typeService;
+    }
 
     @GetMapping
     public List<Type> getAllTypes() {
-        return typeRepository.findAll();
+        return typeService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Type getTypeById(@PathVariable Long id) {
-        return typeRepository.findById(id).orElseThrow(() -> new RuntimeException("Type not found"));
+    public ResponseEntity<Type> getTypeById(@PathVariable Long id) {
+        Type type = typeService.findById(id);
+        return ResponseEntity.ok(type);
     }
 
     @PostMapping
-    public Type createType(@RequestBody Type type) {
-        return typeRepository.save(type);
+    public ResponseEntity<Type> createType(@RequestBody Type request) {
+        Type type = typeService.create(request);
+        return ResponseEntity.ok(type);
     }
 
     @PutMapping("/{id}")
-    public Type updateType(@PathVariable Long id, @RequestBody Type typeDetails) {
-        Type type = typeRepository.findById(id).orElseThrow(() -> new RuntimeException("Type not found"));
-
-        type.setName(typeDetails.getName());
-        type.setDescription(typeDetails.getDescription());
-
-        return typeRepository.save(type);
+    public ResponseEntity<Type> updateType(@PathVariable Long id, @RequestBody Type request) {
+        Type type = typeService.update(id, request);
+        return ResponseEntity.ok(type);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteType(@PathVariable Long id) {
-        Type type = typeRepository.findById(id).orElseThrow(() -> new RuntimeException("Type not found"));
-        typeRepository.delete(type);
+    public ResponseEntity<Void> deleteType(@PathVariable Long id) {
+        typeService.delete(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 }

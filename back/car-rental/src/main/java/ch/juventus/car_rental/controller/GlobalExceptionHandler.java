@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import ch.juventus.car_rental.exceptions.HttpStatusException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -15,5 +16,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
-    // You can also add other exception handlers here for different scenarios.
+    @ExceptionHandler(HttpStatusException.class)
+    public ResponseEntity<String> handleHttpStatusException(HttpStatusException ex) {
+        return new ResponseEntity<>(ex.getMessage(), ex.getStatus());
+    }
 }
