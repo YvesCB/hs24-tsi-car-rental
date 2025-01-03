@@ -40,3 +40,8 @@
 .card-details strong {
   font-weight: bold;
 }
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}

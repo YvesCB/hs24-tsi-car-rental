@@ -15,14 +15,29 @@ public class Car {
     private String name;
     private String brand;
     private int yearOfConstruction;
+    private int pricePerDay;
+
     private boolean automatic;
 
     @ManyToOne
     @JoinColumn(name = "type_id") // Foreign key column in Car table
-    private Type type;
+    private CarType type;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Booking> bookings = new ArrayList<>();
+
+    public boolean compare(Car other) {
+        if (other == null) {
+            return false;
+        }
+
+        boolean isNameEqual = this.name != null && this.name.equals(other.name);
+        boolean isTypeEqual = this.type != null && other.type != null
+                && this.type.getId() != null && this.type.getId().equals(other.type.getId());
+        boolean isBrandEqual = this.brand != null && this.brand.equals(other.brand);
+
+        return isNameEqual && isTypeEqual && isBrandEqual;
+    }
 
     // Getters and Setters
     public Long getId() {
@@ -65,11 +80,11 @@ public class Car {
         this.automatic = automatic;
     }
 
-    public Type getType() {
+    public CarType getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(CarType type) {
         this.type = type;
     }
 
@@ -80,5 +95,13 @@ public class Car {
 
     public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
+    }
+
+    public int getPricePerDay() {
+        return pricePerDay;
+    }
+
+    public void setPricePerDay(int pricePerDay) {
+        this.pricePerDay = pricePerDay;
     }
 }

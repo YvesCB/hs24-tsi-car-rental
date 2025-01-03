@@ -8,6 +8,7 @@ import NotFound from './pages/NotFound';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Contact from './pages/Contact';
+import CarPage from './pages/CarPage';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         { /* Layout wraps everything under "/" */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />}></Route>
+          <Route path="car/:carId" element={<CarPage />}></Route>
           <Route path="admin" element={<Admin />}></Route>
           <Route path="about" element={<About />}></Route>
           <Route path="privacy" element={<Privacy />}></Route>

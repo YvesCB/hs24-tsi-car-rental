@@ -4,14 +4,14 @@ import Card from "../card/Card";
 import "./style.css";
 
 type CarsAreaProps = {
-  cars: Car[];
+  cars: Car[] | undefined;
 }
 
 const CarsArea = ({ cars }: CarsAreaProps) => {
 
   return (
     <div className="cars-area">
-      {cars.map((car) => {
+      {cars && cars.map((car) => {
         return <Card key={car.id} car={car} />;
       })}
     </div>

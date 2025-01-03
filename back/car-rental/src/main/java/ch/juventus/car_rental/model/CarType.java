@@ -1,12 +1,14 @@
 package ch.juventus.car_rental.model;
 
+import org.hibernate.resource.transaction.spi.IsolationDelegate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Type {
+public class CarType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +16,17 @@ public class Type {
 
     private String name;
     private String description;
+
+    public boolean compare(CarType other) {
+        if (other == null) {
+            return false;
+        }
+
+        boolean isNameEqual = this.name != null && this.name.equals(other.name);
+        boolean isDescriptionEqual = this.description != null && other.description != null;
+
+        return isNameEqual && isDescriptionEqual;
+    }
 
     // Getters and Setters
     public Long getId() {

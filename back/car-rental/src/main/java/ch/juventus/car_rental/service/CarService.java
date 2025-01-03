@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import ch.juventus.car_rental.exceptions.HttpStatusException;
 import ch.juventus.car_rental.model.Car;
-import ch.juventus.car_rental.model.Type;
+import ch.juventus.car_rental.model.CarType;
 import ch.juventus.car_rental.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -39,21 +39,18 @@ public class CarService {
 
     public Car create(Car car) {
         if (car.getType() != null && car.getType().getId() != null) {
-            Type type = typeService.findById(car.getType().getId());
+            CarType type = typeService.findById(car.getType().getId());
             car.setType(type);
         }
 
         List<Car> cars = carRepository.findAll();
         for (Car existingCar : cars) {
-            boolean overlaps = car.getName() == existingCar.getName() && car.getType() == existingCar.getType()
-                    && car.getBrand() == existingCar.getBrand();
-            if (overlaps) {
+            if (car.compare(existingCar)) {
                 throw new HttpStatusException(HttpStatus.BAD_REQUEST,
-                        "Error: Name, Type and Brand cannot all overlap with existing car.");
+                        "Name, Type and Brand cannot all overlap with existing car.");
             }
         }
         return carRepository.save(car);
-
     }
 
     public Car update(Long id, Car carDetails) {
@@ -66,7 +63,7 @@ public class CarService {
         car.setType(carDetails.getType());
 
         if (carDetails.getType() != null && carDetails.getType().getId() != null) {
-            Type type = typeService.findById(carDetails.getType().getId());
+            CarType type = typeService.findById(carDetails.getType().getId());
             car.setType(type);
         }
 

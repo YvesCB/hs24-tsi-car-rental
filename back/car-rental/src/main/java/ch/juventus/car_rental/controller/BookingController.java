@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -20,21 +21,25 @@ public class BookingController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Booking>> getAllBookings() {
+    public ResponseEntity<List<BookingDTO>> getAllBookings() {
         List<Booking> bookings = bookingService.findAll();
-        return ResponseEntity.ok(bookings);
+        List<BookingDTO> bookingDTOs = bookings.stream().map((booking) -> Mapper.toDto(booking))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(bookingDTOs);
     }
 
     @GetMapping("/car/{carId}")
-    public ResponseEntity<List<Booking>> getBookingsByCarId(@PathVariable Long carId) {
+    public ResponseEntity<List<BookingDTO>> getBookingsByCarId(@PathVariable Long carId) {
         List<Booking> bookings = bookingService.getAllByCarId(carId);
-        return ResponseEntity.ok(bookings);
+        List<BookingDTO> bookingDTOs = bookings.stream().map((booking) -> Mapper.toDto(booking))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(bookingDTOs);
     }
 
     @PostMapping
-    public ResponseEntity<Booking> createBooking(@RequestBody Booking request) {
+    public ResponseEntity<BookingDTO> createBooking(@RequestBody Booking request) {
         Booking booking = bookingService.create(request);
-        return ResponseEntity.ok(booking);
+        return ResponseEntity.ok(Mapper.toDto(booking));
     }
 
     @DeleteMapping("/{id}")

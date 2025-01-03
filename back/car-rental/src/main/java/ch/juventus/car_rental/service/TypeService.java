@@ -2,9 +2,11 @@ package ch.juventus.car_rental.service;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import ch.juventus.car_rental.model.Type;
+import ch.juventus.car_rental.exceptions.HttpStatusException;
+import ch.juventus.car_rental.model.CarType;
 import ch.juventus.car_rental.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -16,20 +18,27 @@ public class TypeService {
         this.typeRepository = typeRepository;
     }
 
-    public List<Type> findAll() {
+    public List<CarType> findAll() {
         return typeRepository.findAll();
     }
 
-    public Type findById(Long id) {
+    public CarType findById(Long id) {
         return typeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    public Type create(Type type) {
+    public CarType create(CarType type) {
+        List<CarType> types = typeRepository.findAll();
+        for (CarType existingType : types) {
+            if (type.compare(existingType)) {
+                throw new HttpStatusException(HttpStatus.BAD_REQUEST,
+                        "Name and Description cannot all overlap with existing type.");
+            }
+        }
         return typeRepository.save(type);
     }
 
-    public Type update(Long id, Type typeDetails) {
-        Type type = findById(id);
+    public CarType update(Long id, CarType typeDetails) {
+        CarType type = findById(id);
 
         type.setName(typeDetails.getName());
         type.setDescription(typeDetails.getDescription());
@@ -38,7 +47,7 @@ public class TypeService {
     }
 
     public void delete(Long id) {
-        Type type = findById(id);
+        CarType type = findById(id);
         typeRepository.delete(type);
     }
 }

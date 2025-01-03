@@ -21,17 +21,6 @@
     border-radius: 4px;
 }
 
-.search-input button {
-    padding: 8px 16px;
-    font-size: 16px;
-    color: white;
-    background-color: var(--color-accent);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
 .search-input button:hover {
     background-color: var(--color-accent-hover);
 }

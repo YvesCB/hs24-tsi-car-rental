@@ -1,0 +1,29 @@
+.carinfo-container {
+  display: flex;
+  justify-items: space-between;
+}
+
+.thumbnail img {
+  width: 34em;
+  height: 40em;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.car-details {
+  margin-left: 2em; 
+}
+
+.car-details h1 {
+  margin-top: 0;
+  font-size: 48pt;
+  color: var(--color-secondary);
+}
+
+.car-details p {
+  margin-block: 1em;
+}
+
+.car-details button {
+  margin-top: 2em;
+}
