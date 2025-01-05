@@ -45,7 +45,7 @@ public class CarService {
 
         if (car.getName() == "" || car.getBrand() == "") {
             throw new HttpStatusException(HttpStatus.BAD_REQUEST,
-                    "Name, Type and Brand cannot all overlap with existing car.");
+                    "Name and Brand cannot be empty");
         }
 
         List<Car> cars = carRepository.findAll();
