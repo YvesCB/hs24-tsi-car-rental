@@ -11,10 +11,16 @@ const CarPage = () => {
   useEffect(() => {
     fetch(`http://localhost:8080/api/cars/${carId}`)
       .then((response) => {
-        if (response.status === 404) {
-          throw new Error("Car not found");
+        if (response.ok) {
+          return response.json();
         }
-        return response.json();
+        else if (response.status === 404) {
+          throw new Error("Car not found");
+        } else if (response.status === 400) {
+          throw new Error(response.statusText);
+        } else {
+          throw new Error("Unkown Error");
+        }
       })
       .then((car: Car) => {
         setCar(car);

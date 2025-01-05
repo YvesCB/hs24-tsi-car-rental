@@ -1,34 +1,50 @@
-import { useState } from "react";
 import "./style.css";
+import { CarType, Query } from "../../types";
+import { useEffect, useState } from "react";
+import { findAllTypes } from "../../api";
 
-const SearchBar = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [type, setType] = useState("");
-  const [minPrice, setMinPrice] = useState<number | "">("");
-  const [maxPrice, setMaxPrice] = useState<number | "">("");
-  const [yearRange, setYearRange] = useState<{ start: string; end: string }>({
-    start: "",
-    end: "",
-  });
+type SearchBarProps = {
+  query: Query;
+  setQuery: React.Dispatch<React.SetStateAction<Query>>;
+  setError: React.Dispatch<React.SetStateAction<string | null>>;
+  textFilter: string;
+  setTextFilter: React.Dispatch<React.SetStateAction<string>>;
+  handleSearch: () => void;
+}
 
-  const handleSearch = () => {
-    // Handle search logic here
-    console.log({
-      searchTerm,
-      type,
-      minPrice,
-      maxPrice,
-      yearRange,
-    });
+const SearchBar = ({ query, setQuery, setError, textFilter, setTextFilter, handleSearch }: SearchBarProps) => {
+  const [types, setTypes] = useState<CarType[]>();
+
+  useEffect(() => {
+    findAllTypes()
+      .then((carTypes: CarType[]) => {
+        setTypes(carTypes);
+        setError(null);
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(err.message);
+      });
+  }, []);
+
+  const handleChange = (key: keyof Query, value: any) => {
+    setQuery((prev) => ({ ...prev, [key]: value !== "" ? value : null }));
   };
+
+  const handleDateChange = (key: "start" | "end", value: string) => {
+    const dateValue = value ? new Date(value) : null;
+    console.log(query);
+    handleChange(key, dateValue);
+  };
+
   return (
     <div className="search-bar">
       <div className="search-input">
         <input
           type="text"
           placeholder="Search for vehicles..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={textFilter}
+          onChange={(e) => setTextFilter(e.target.value)}
         />
         <button onClick={handleSearch}>Search</button>
       </div>
@@ -37,13 +53,13 @@ const SearchBar = () => {
           <label htmlFor="type">Type</label>
           <select
             id="type"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
+            value={query.typeName ?? ""}
+            onChange={(e) => handleChange("typeName", e.target.value ?? null)}
           >
             <option value="">All</option>
-            <option value="Rover">Rover</option>
-            <option value="Drone">Drone</option>
-            <option value="Lander">Lander</option>
+            {types && types.map((type) => {
+              return (<option key={type.id} value={type.name}>{type.name}</option>);
+            })}
           </select>
         </div>
         <div className="filter">
@@ -52,8 +68,8 @@ const SearchBar = () => {
             type="number"
             id="minPrice"
             placeholder="0"
-            value={minPrice}
-            onChange={(e) => setMinPrice(Number(e.target.value) || "")}
+            value={query.minPrice ?? ""}
+            onChange={(e) => handleChange("minPrice", e.target.value ? parseInt(e.target.value) : null)}
           />
         </div>
         <div className="filter">
@@ -62,29 +78,24 @@ const SearchBar = () => {
             type="number"
             id="maxPrice"
             placeholder="10000"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(Number(e.target.value) || "")}
+            value={query.maxPrice ?? ""}
+            onChange={(e) => handleChange("maxPrice", e.target.value ? parseInt(e.target.value) : null)}
           />
         </div>
         <div className="filter">
-          <label htmlFor="yearRange">Year Range</label>
-          <div className="year-range">
+          <label htmlFor="time-range">Available</label>
+          <div className="time-range">
             <input
-              type="number"
-              placeholder="Start Year"
-              value={yearRange.start}
-              onChange={(e) =>
-                setYearRange({ ...yearRange, start: e.target.value })
-              }
+              type="date"
+              value={query.start ? query.start.toISOString().split("T")[0] : ""}
+              onChange={(e) => handleDateChange("start", e.target.value)}
             />
-            <span>to</span>
+            <span> to </span>
             <input
-              type="number"
-              placeholder="End Year"
-              value={yearRange.end}
-              onChange={(e) =>
-                setYearRange({ ...yearRange, end: e.target.value })
-              }
+              type="date"
+              placeholder="End date"
+              value={query.end ? query.end.toISOString().split("T")[0] : ""}
+              onChange={(e) => handleDateChange("end", e.target.value)}
             />
           </div>
         </div>

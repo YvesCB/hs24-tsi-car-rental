@@ -61,6 +61,7 @@ public class CarService {
         car.setYearOfConstruction(carDetails.getYearOfConstruction());
         car.setAutomatic(carDetails.isAutomatic());
         car.setType(carDetails.getType());
+        car.setActive(carDetails.isActive());
 
         if (carDetails.getType() != null && carDetails.getType().getId() != null) {
             CarType type = typeService.findById(carDetails.getType().getId());
@@ -72,6 +73,10 @@ public class CarService {
 
     public void delete(Long id) {
         Car car = findById(id);
+        if (car != null && car.getBookings().size() != 0) {
+            throw new HttpStatusException(HttpStatus.BAD_REQUEST,
+                    "A car with existing bookings cannot be deleted. Deactive it instead.");
+        }
         carRepository.delete(car);
     }
 

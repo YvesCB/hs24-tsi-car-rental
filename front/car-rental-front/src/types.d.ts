@@ -19,3 +19,12 @@ export type Booking = {
   customerName: string;
   carId: number;
 }
+
+export type Query = {
+  minPrice: number | null;
+  maxPrice: number | null;
+  brand: string | null;
+  typeName: string | null;
+  start: Date | null;
+  end: Date | null;
+}

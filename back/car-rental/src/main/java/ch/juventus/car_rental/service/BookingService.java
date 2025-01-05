@@ -1,6 +1,8 @@
 package ch.juventus.car_rental.service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,18 +30,27 @@ public class BookingService {
         return bookingRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    // private List<Booking> findAllByCarId(Long carId) {
-    // List<Booking> bookings = bookingRepository.findAll();
-    // List<Booking> bookingsByCarId = bookings.stream().filter((booking) ->
-    // booking.getCar().getId() == carId)
-    // .collect(Collectors.toList());
-    //
-    // return bookingsByCarId;
-    // }
+    public List<Booking> findOverlapTimeRange(LocalDate start, LocalDate end) {
+        List<Booking> bookings = findAll();
+        List<Booking> filteredBookings = bookings.stream().filter((booking) -> {
+            return booking.getFromDate().isBefore(end) && booking.getToDate().isAfter(start);
+        }).collect(Collectors.toList());
+
+        return filteredBookings;
+    }
+
+    public List<Booking> findInsideTimeRange(LocalDate start, LocalDate end) {
+        List<Booking> bookings = findAll();
+        List<Booking> filteredBookings = bookings.stream().filter((booking) -> {
+            return booking.getFromDate().isEqual(start) || booking.getFromDate().isBefore(start)
+                    && booking.getToDate().isEqual(end) || booking.getToDate().isBefore(end);
+        }).collect(Collectors.toList());
+
+        return filteredBookings;
+    }
 
     public List<Booking> getAllByCarId(Long carId) {
         carService.existsById(carId);
-        // List<Booking> bookings = findAllByCarId(carId);
         List<Booking> bookings = bookingRepository.findAllByCarId(carId);
         return bookings;
     }

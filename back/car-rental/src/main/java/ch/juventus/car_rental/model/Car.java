@@ -1,5 +1,6 @@
 package ch.juventus.car_rental.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class Car {
     private int pricePerDay;
 
     private boolean automatic;
+    private boolean active;
 
     @ManyToOne
     @JoinColumn(name = "type_id") // Foreign key column in Car table
@@ -37,6 +39,14 @@ public class Car {
         boolean isBrandEqual = this.brand != null && this.brand.equals(other.brand);
 
         return isNameEqual && isTypeEqual && isBrandEqual;
+    }
+
+    public boolean availableDuring(LocalDate start, LocalDate end) {
+        for (Booking booking : bookings) {
+            if (booking.getFromDate().isBefore(end) && booking.getToDate().isAfter(start))
+                return false;
+        }
+        return true;
     }
 
     // Getters and Setters
@@ -103,5 +113,13 @@ public class Car {
 
     public void setPricePerDay(int pricePerDay) {
         this.pricePerDay = pricePerDay;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
