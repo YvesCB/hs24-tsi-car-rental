@@ -1,6 +1,5 @@
 package ch.juventus.car_rental.controller;
 
-import ch.juventus.car_rental.exceptions.HttpStatusException;
 import ch.juventus.car_rental.model.*;
 import ch.juventus.car_rental.service.TypeService;
 
@@ -27,13 +26,8 @@ public class TypeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CarType> getTypeById(@PathVariable Long id) {
-        try {
-            CarType type = typeService.findById(id);
-            return ResponseEntity.ok(type);
-        } catch (Exception e) {
-            throw new HttpStatusException(HttpStatus.NOT_FOUND,
-                    "The provided id does not correspond to an existing type in the database.");
-        }
+        CarType type = typeService.findById(id);
+        return ResponseEntity.ok(type);
     }
 
     @PostMapping

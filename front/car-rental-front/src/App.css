@@ -10,13 +10,61 @@ html, body {
   box-sizing: inherit;
 }
 
-button {
-    padding: 8px 16px;
-    font-size: 16px;
-    color: white;
-    background-color: var(--color-accent);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+button , .submit-btn {
+  margin-block: 1em;
+  padding: 8px 16px;
+  font-size: 16px;
+  color: white;
+  background-color: var(--color-accent);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover, .submit-btn {
+  background-color: var(--color-accent-hover);
+}
+
+input {
+  flex-grow: 1;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+label {
+  font-size: 14px;
+  color: var(--color-text-light);
+}
+
+input, select {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background-color: var(--color-background-light);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.input-with-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Mobile Responsive Layout */
+@media (max-width: 768px) {
+  input {
+    width: 100%;
+  }
 }

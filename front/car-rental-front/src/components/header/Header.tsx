@@ -1,7 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./style.css";
 
 const Header = () => {
+  const location = useLocation();
+
+  const isAdmin = location.pathname.startsWith("/admin");
+
   return (
     <div className="container">
       <div className="logo">
@@ -9,12 +13,15 @@ const Header = () => {
       </div>
       <nav>
         <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/about">About</Link></li>
+          <li><Link to={isAdmin ? "/admin" : "/"}>Home</Link></li>
+          <li><Link to={isAdmin ? "/admin/about" : "/about"}>About</Link></li>
         </ul>
       </nav>
       <div className="admin-mode-container">
-        <button>Admin mode</button>
+        {isAdmin ?
+          <Link to={`${location.pathname.replace("/admin", "")}`}><button>Normal mode</button></Link> :
+          <Link to={`/admin${location.pathname}`}><button>Admin mode</button></Link>
+        }
       </div>
     </div>
   );

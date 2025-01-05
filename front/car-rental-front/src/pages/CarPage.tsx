@@ -1,27 +1,24 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { Car } from "../types";
 import CarInfo from "../components/carinfo/CarInfo";
+import CarAdminFunctions from "../components/caradminfunctions/CarAdminFunctions";
+import { findCarById } from "../api";
+import { invariant } from "../utils";
 
 const CarPage = () => {
+  const location = useLocation();
+
+  const isAdmin = location.pathname.startsWith("/admin");
+
   const { carId } = useParams();
   const [car, setCar] = useState<Car | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  invariant(carId);
+
   useEffect(() => {
-    fetch(`http://localhost:8080/api/cars/${carId}`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        else if (response.status === 404) {
-          throw new Error("Car not found");
-        } else if (response.status === 400) {
-          throw new Error(response.statusText);
-        } else {
-          throw new Error("Unkown Error");
-        }
-      })
+    findCarById(parseInt(carId))
       .then((car: Car) => {
         setCar(car);
         setError(null); // Clear any previous errors
@@ -44,7 +41,15 @@ const CarPage = () => {
     return <p>Loading...</p>;
   }
   return (
-    <CarInfo car={car} />
+    <div>
+
+      {
+        isAdmin ?
+          <CarAdminFunctions carId={parseInt(carId)} /> :
+          null
+      }
+      <CarInfo car={car} />
+    </div>
   );
 }
 

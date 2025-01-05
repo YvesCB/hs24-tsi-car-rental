@@ -62,38 +62,20 @@ public class CarController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Car> getCarById(@PathVariable Long id) {
-        try {
-            Car car = carService.findById(id);
-            return ResponseEntity.ok(car);
-        } catch (EntityNotFoundException e) {
-            throw new HttpStatusException(HttpStatus.NOT_FOUND,
-                    "The provided id does no correspond to a car in the database.");
-        }
+        Car car = carService.findById(id);
+        return ResponseEntity.ok(car);
     }
 
     @PostMapping
     public ResponseEntity<Car> createCar(@RequestBody Car car) {
-        // Resolve type id
-
-        try {
-            Car savedCar = carService.create(car);
-            return ResponseEntity.ok(savedCar);
-        } catch (EntityNotFoundException e) {
-            throw new HttpStatusException(HttpStatus.NOT_FOUND,
-                    "The provided id does no correspond to a type in the database.");
-        }
+        Car savedCar = carService.create(car);
+        return ResponseEntity.ok(savedCar);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Car> updateCar(@PathVariable Long id, @RequestBody Car carDetails) {
-
-        try {
-            Car updatedCar = carService.update(id, carDetails);
-            return ResponseEntity.ok(updatedCar);
-        } catch (EntityNotFoundException e) {
-            throw new HttpStatusException(HttpStatus.NOT_FOUND,
-                    "The provided id does no correspond to a car in the database.");
-        }
+        Car updatedCar = carService.update(id, carDetails);
+        return ResponseEntity.ok(updatedCar);
     }
 
     @DeleteMapping("/{id}")

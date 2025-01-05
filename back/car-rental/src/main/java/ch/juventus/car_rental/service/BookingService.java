@@ -80,6 +80,12 @@ public class BookingService {
 
     public void delete(Long id) {
         Booking booking = findById(id);
-        bookingRepository.delete(booking);
+        LocalDate now = LocalDate.now();
+        if (booking.getFromDate().isAfter(now)) {
+            bookingRepository.delete(booking);
+        } else {
+            throw new HttpStatusException(HttpStatus.BAD_REQUEST,
+                    "Only future bookings can be deleted for consistancy.");
+        }
     }
 }

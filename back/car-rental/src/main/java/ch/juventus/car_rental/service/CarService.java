@@ -43,6 +43,11 @@ public class CarService {
             car.setType(type);
         }
 
+        if (car.getName() == "" || car.getBrand() == "") {
+            throw new HttpStatusException(HttpStatus.BAD_REQUEST,
+                    "Name, Type and Brand cannot all overlap with existing car.");
+        }
+
         List<Car> cars = carRepository.findAll();
         for (Car existingCar : cars) {
             if (car.compare(existingCar)) {

@@ -3,8 +3,14 @@ import SearchBar from "../components/searchbar/SearchBar";
 import { Car, Query } from "../types";
 import CarsArea from "../components/carsarea/CarsArea";
 import { buildQueryString, findCarsFiltered } from "../api";
+import { useLocation } from "react-router-dom";
+import HomeAdminFunctions from "../components/homeadminfunctions/HomeAdminFunctions";
 
 const Home = () => {
+  const location = useLocation();
+
+  const isAdmin = location.pathname.startsWith("/admin");
+
   const [carList, setCarList] = useState<Car[]>();
   const [displayCarList, setDisplayCarList] = useState<Car[]>();
   const [query, setQuery] = useState<Query>({
@@ -20,7 +26,6 @@ const Home = () => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    console.log(urlParams);
     const initialQuery: Query = {
       minPrice: urlParams.has("minPrice") ? parseInt(urlParams.get("minPrice")!) : null,
       maxPrice: urlParams.has("maxPrice") ? parseInt(urlParams.get("maxPrice")!) : null,
@@ -61,7 +66,7 @@ const Home = () => {
           setError(null); // Clear any previous errors
         })
         .catch((err) => {
-          console.log(err);
+          alert(err.message)
           setError(err.message);
         });
     }
@@ -78,6 +83,11 @@ const Home = () => {
   }
   return (
     <div>
+      {isAdmin ?
+        <HomeAdminFunctions /> :
+        null
+      }
+
       <SearchBar query={query} setQuery={setQuery} setError={setError} handleSearch={handleSearch} textFilter={textFilter} setTextFilter={setTextFilter} />
 
       <CarsArea cars={displayCarList} />

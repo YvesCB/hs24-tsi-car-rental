@@ -3,7 +3,11 @@ Multi repo for frontend and backend of the car rental project
 
 ## Setup
 - The backend relies on Sqlite3 being installed.
-- The backend sets CORS for `localhost:5173` since that is the default port for Vite. When the port for the frontend is changed, the configuration for CORS in `/back/car-rental/src/main/java/ch/juventus/car_rental/CarRentalWebConfig.java` needs to be adjusted.
+- The backend sets CORS for `localhost:5173` and `localhost:4173` since those are the default ports for Vite. When the port for the frontend is changed, the configuration for CORS in `/back/car-rental/src/main/java/ch/juventus/car_rental/CarRentalWebConfig.java` needs to be adjusted.
+
+### Running the project
+Start the backend server with Maven: `mvn spring-boot:run`
+Start the front end server with npm: `npm run dev` or `npm build && npm preview`
 
 ## Overview
 The project contains the front and back end for a car rental web platform. To spice things up, the frontend is designed to feature Mars vehicles like rovers and drones instead. But the Back end allows for any generic "Car" details to be input.

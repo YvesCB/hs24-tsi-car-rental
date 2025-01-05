@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import ch.juventus.car_rental.exceptions.HttpStatusException;
+import ch.juventus.car_rental.model.Car;
 import ch.juventus.car_rental.model.CarType;
 import ch.juventus.car_rental.repository.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,9 +14,11 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class TypeService {
     private final TypeRepository typeRepository;
+    private final CarRepository carRepository;
 
-    public TypeService(TypeRepository typeRepository) {
+    public TypeService(TypeRepository typeRepository, CarRepository carRepository) {
         this.typeRepository = typeRepository;
+        this.carRepository = carRepository;
     }
 
     public List<CarType> findAll() {
@@ -48,6 +51,13 @@ public class TypeService {
 
     public void delete(Long id) {
         CarType type = findById(id);
+        List<Car> cars = carRepository.findAll();
+        for (Car car : cars) {
+            if (car.getType().getId() == id) {
+                throw new HttpStatusException(HttpStatus.BAD_REQUEST,
+                        "Only types that are assigned to no cars can be deleted.");
+            }
+        }
         typeRepository.delete(type);
     }
 }

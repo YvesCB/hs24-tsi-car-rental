@@ -1,10 +1,17 @@
 export type Car = {
   id: number;
   name: string;
-  yearOfConstruction: string;
+  brand: string;
+  yearOfConstruction: number;
+  automatic: boolean;
+  active: boolean;
   pricePerDay: number;
   type: CarType;
   bookings: Booking[];
+};
+
+export type UpsertCar = Omit<Car, "id" | "type" | "bookings"> & {
+  type: { id: number };
 };
 
 export type CarType = {

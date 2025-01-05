@@ -33,12 +33,11 @@ const SearchBar = ({ query, setQuery, setError, textFilter, setTextFilter, handl
 
   const handleDateChange = (key: "start" | "end", value: string) => {
     const dateValue = value ? new Date(value) : null;
-    console.log(query);
     handleChange(key, dateValue);
   };
 
   return (
-    <div className="search-bar">
+    <div className="input-box">
       <div className="search-input">
         <input
           type="text"
@@ -49,7 +48,7 @@ const SearchBar = ({ query, setQuery, setError, textFilter, setTextFilter, handl
         <button onClick={handleSearch}>Search</button>
       </div>
       <div className="filters">
-        <div className="filter">
+        <div className="input-with-label">
           <label htmlFor="type">Type</label>
           <select
             id="type"
@@ -62,7 +61,7 @@ const SearchBar = ({ query, setQuery, setError, textFilter, setTextFilter, handl
             })}
           </select>
         </div>
-        <div className="filter">
+        <div className="input-with-label">
           <label htmlFor="minPrice">Min Price</label>
           <input
             type="number"
@@ -72,7 +71,7 @@ const SearchBar = ({ query, setQuery, setError, textFilter, setTextFilter, handl
             onChange={(e) => handleChange("minPrice", e.target.value ? parseInt(e.target.value) : null)}
           />
         </div>
-        <div className="filter">
+        <div className="input-with-label">
           <label htmlFor="maxPrice">Max Price</label>
           <input
             type="number"

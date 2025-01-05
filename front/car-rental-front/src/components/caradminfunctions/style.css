@@ -1,0 +1,7 @@
+.car-admin-functions {
+  margin-bottom: 2em;
+}
+
+.car-admin-functions > * {
+  margin-right: 2em;
+}

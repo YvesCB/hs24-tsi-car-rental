@@ -1,18 +1,23 @@
 import { Car } from "../../types";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import "./style.css";
+import { imageFromType } from "../../utils";
 
 type CardProps = {
   car: Car;
 }
 
 const Card = ({ car }: CardProps) => {
+  const location = useLocation();
+
+  const isAdmin = location.pathname.startsWith("/admin");
+
   return (
-    <Link to={`/car/${car.id}`} className="card-link">
+    <Link to={`${isAdmin ? "/admin" : ""}/car/${car.id}`} className="card-link">
       <div className="card">
         <div className="card-image">
-          <img src="/placeholder.jpg" alt="A placeholder image" />
+          <img src={`${imageFromType(car.type)}`} alt="A placeholder image" />
         </div>
         <div className="card-details">
           <h3>{car.name}</h3>

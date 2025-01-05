@@ -1,4 +1,5 @@
 import { Car } from "../../types";
+import { imageFromType } from "../../utils";
 import "./style.css";
 
 type CarInfoProps = {
@@ -9,7 +10,7 @@ const CarInfo = ({ car }: CarInfoProps) => {
   return (
     <div className="carinfo-container">
       <div className="thumbnail">
-        <img src="/placeholder.jpg" alt="A placeholder image" />
+        <img src={`${imageFromType(car.type)}`} alt="Image of the vehicle" />
       </div>
       <div className="car-details">
         <h1>{car.name}</h1>

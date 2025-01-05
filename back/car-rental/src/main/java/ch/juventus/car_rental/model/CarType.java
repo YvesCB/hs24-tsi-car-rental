@@ -1,7 +1,5 @@
 package ch.juventus.car_rental.model;
 
-import org.hibernate.resource.transaction.spi.IsolationDelegate;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

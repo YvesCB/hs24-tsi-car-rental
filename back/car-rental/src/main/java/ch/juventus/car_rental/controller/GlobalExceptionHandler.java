@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import ch.juventus.car_rental.exceptions.HttpStatusException;
+import jakarta.persistence.EntityNotFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -19,5 +20,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpStatusException.class)
     public ResponseEntity<String> handleHttpStatusException(HttpStatusException ex) {
         return new ResponseEntity<>(ex.getMessage(), ex.getStatus());
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleEntityNotFound(EntityNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
