@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Car } from "../../types";
 import { imageFromType } from "../../utils";
 import "./style.css";
@@ -20,7 +21,7 @@ const CarInfo = ({ car }: CarInfoProps) => {
         <p><strong>Gearbox: </strong> {car.automatic ? "Automatic" : "Manual"}</p>
         <p><strong>Year of Construction:</strong> {car.yearOfConstruction}</p>
         <p><strong>Price per Day:</strong> {car.pricePerDay} Credits</p>
-        <button>Book</button>
+        <Link to={`/car/${car.id}/booking`}><button>Book</button></Link>
       </div>
     </div>
   );

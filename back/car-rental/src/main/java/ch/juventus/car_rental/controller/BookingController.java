@@ -37,14 +37,21 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<BookingDTO> createBooking(@RequestBody Booking request) {
-        Booking booking = bookingService.create(request);
+    public ResponseEntity<BookingDTO> createBooking(@RequestBody BookingDTO request) {
+        Booking incoming = Mapper.toEntity(request);
+        Booking booking = bookingService.create(incoming, request.getCarId());
         return ResponseEntity.ok(Mapper.toDto(booking));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBooking(@PathVariable Long id) {
         bookingService.delete(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
+
+    @DeleteMapping("/force/{id}")
+    public ResponseEntity<Void> forceDeleteBooking(@PathVariable Long id) {
+        bookingService.forceDelete(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 }

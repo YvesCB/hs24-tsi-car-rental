@@ -1,4 +1,4 @@
-import { Car, CarType, Query, UpsertCar } from "./types";
+import { Booking, Car, CarType, Query, UpsertBooking, UpsertCar } from "./types";
 
 export const baseUrl = "http://localhost:8080/api";
 
@@ -124,4 +124,13 @@ export async function deleteType(id: number): Promise<void> {
   const response = await fetch(baseUrl + `/types/${id}`, { method: "DELETE" });
 
   return handleResponse(response);
+}
+
+export async function createBooking(booking: UpsertBooking): Promise<Booking> {
+  const response = await fetch(baseUrl + "/bookings", {
+    headers: { "Content-Type": "application/json" },
+    method: "POST", body: JSON.stringify(booking)
+  });
+
+  return handleJsonResponse(response);
 }

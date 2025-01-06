@@ -21,6 +21,7 @@ export type CarType = {
 };
 
 export type Booking = {
+  id: number,
   fromDate: Date;
   toDate: Date;
   customerName: string;

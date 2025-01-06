@@ -55,11 +55,13 @@ public class BookingService {
         return bookings;
     }
 
-    public Booking create(Booking booking) {
+    public Booking create(Booking booking, Long carId) {
         // Validate: fromDate should not be after toDate
         if (booking.getFromDate().isAfter(booking.getToDate())) {
             throw new HttpStatusException(HttpStatus.BAD_REQUEST, "Start date needs to be before End date.");
         }
+
+        booking.setCar(carService.findById(carId));
 
         // Validate: Check for overlapping bookings for the same car
         List<Booking> existingBookings = bookingRepository.findAllByCarId(booking.getCar().getId());
@@ -87,5 +89,10 @@ public class BookingService {
             throw new HttpStatusException(HttpStatus.BAD_REQUEST,
                     "Only future bookings can be deleted for consistancy.");
         }
+    }
+
+    public void forceDelete(Long id) {
+        Booking booking = findById(id);
+        bookingRepository.delete(booking);
     }
 }

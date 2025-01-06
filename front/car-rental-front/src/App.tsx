@@ -11,6 +11,7 @@ import CarPage from './pages/CarPage';
 import TypesOverview from './pages/TypesOverview';
 import NewCar from './pages/NewCar';
 import EditCar from './pages/EditCar';
+import CarBooking from './pages/CarBooking';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />}></Route>
           <Route path="car/:carId" element={<CarPage />}></Route>
+          <Route path="car/:carId/booking" element={<CarBooking />}></Route>
           <Route path="about" element={<About />}></Route>
           <Route path="privacy" element={<Privacy />}></Route>
           <Route path="terms" element={<Terms />}></Route>

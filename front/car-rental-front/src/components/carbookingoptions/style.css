@@ -1,0 +1,11 @@
+.vehicle-name {
+  color: var(--color-secondary);
+}
+
+.input-box h3 {
+  margin: 0;
+}
+
+.date-selection {
+  margin-bottom: 2em;
+}
