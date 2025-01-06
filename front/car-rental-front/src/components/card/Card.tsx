@@ -15,12 +15,13 @@ const Card = ({ car }: CardProps) => {
 
   return (
     <Link to={`${isAdmin ? "/admin" : ""}/car/${car.id}`} className="card-link">
-      <div className="card">
+      <div className={`card${car.active ? "" : " inactive"}`}>
         <div className="card-image">
           <img src={`${imageFromType(car.type)}`} alt="A placeholder image" />
         </div>
         <div className="card-details">
           <h3>{car.name}</h3>
+          <p><strong>Brand: {car.brand}</strong></p>
           <p><strong>Type: {car.type.name}</strong></p>
           <p><strong>Year: {car.yearOfConstruction}</strong></p>
           <p><strong>Price: {car.pricePerDay}</strong></p>

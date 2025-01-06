@@ -78,6 +78,18 @@ public class CarController {
         return ResponseEntity.ok(updatedCar);
     }
 
+    @PatchMapping("/active/{id}")
+    public ResponseEntity<Car> updateActiveCar(@PathVariable Long id) {
+        Car updatedCar = carService.active(id);
+        return ResponseEntity.ok(updatedCar);
+    }
+
+    @PatchMapping("/inactive/{id}")
+    public ResponseEntity<Car> updateInActiveCar(@PathVariable Long id) {
+        Car updatedCar = carService.inActive(id);
+        return ResponseEntity.ok(updatedCar);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
         carService.delete(id);

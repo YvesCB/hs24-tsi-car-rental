@@ -61,6 +61,9 @@ const Home = () => {
     } else {
       findCarsFiltered(query)
         .then((cars: Car[]) => {
+          if (!isAdmin) {
+            cars = cars.filter((car) => car.active);
+          }
           setCarList(cars)
           setDisplayCarList(cars)
           setError(null); // Clear any previous errors

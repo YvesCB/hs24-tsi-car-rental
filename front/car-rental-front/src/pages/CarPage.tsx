@@ -14,6 +14,7 @@ const CarPage = () => {
   const { carId } = useParams();
   const [car, setCar] = useState<Car | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [carActive, setCarActive] = useState<boolean>(false);
 
   invariant(carId);
 
@@ -22,6 +23,7 @@ const CarPage = () => {
       .then((car: Car) => {
         setCar(car);
         setError(null); // Clear any previous errors
+        setCarActive(car.active);
       })
       .catch((err) => {
         console.log(err);
@@ -45,7 +47,7 @@ const CarPage = () => {
 
       {
         isAdmin ?
-          <CarAdminFunctions carId={parseInt(carId)} /> :
+          <CarAdminFunctions carId={parseInt(carId)} carActive={carActive} setCarActive={setCarActive} /> :
           null
       }
       <CarInfo car={car} />

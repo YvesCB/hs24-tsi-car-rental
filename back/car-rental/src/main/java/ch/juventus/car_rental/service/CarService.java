@@ -61,6 +61,11 @@ public class CarService {
     public Car update(Long id, Car carDetails) {
         Car car = findById(id);
 
+        if (car.getBookings().size() > 0) { // we do not change price for booked cars
+            throw new HttpStatusException(HttpStatus.BAD_REQUEST,
+                    "Price of cars with prior or future bookings cannot be changed.");
+        }
+
         car.setName(carDetails.getName());
         car.setBrand(carDetails.getBrand());
         car.setYearOfConstruction(carDetails.getYearOfConstruction());
@@ -72,6 +77,24 @@ public class CarService {
             CarType type = typeService.findById(carDetails.getType().getId());
             car.setType(type);
         }
+
+        return carRepository.save(car);
+    }
+
+    public Car active(Long id) {
+        Car car = findById(id);
+        car.setActive(true);
+
+        return carRepository.save(car);
+    }
+
+    public Car inActive(Long id) {
+        Car car = findById(id);
+        if (car.hasCurrentOrFutureBooking()) {
+            throw new HttpStatusException(HttpStatus.BAD_REQUEST,
+                    "Car with current or future booking cannot be made inactive.");
+        }
+        car.setActive(false);
 
         return carRepository.save(car);
     }

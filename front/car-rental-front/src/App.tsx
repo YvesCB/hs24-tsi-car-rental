@@ -10,6 +10,7 @@ import Contact from './pages/Contact';
 import CarPage from './pages/CarPage';
 import TypesOverview from './pages/TypesOverview';
 import NewCar from './pages/NewCar';
+import EditCar from './pages/EditCar';
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="car/:carId" element={<CarPage />}></Route>
           <Route path="types" element={<TypesOverview />}></Route>
           <Route path="newcar" element={<NewCar />}></Route>
+          <Route path="editcar/:carId" element={<EditCar />}></Route>
           <Route path="about" element={<About />}></Route>
           <Route path="privacy" element={<Privacy />}></Route>
           <Route path="terms" element={<Terms />}></Route>

@@ -49,6 +49,16 @@ public class Car {
         return true;
     }
 
+    public boolean hasCurrentOrFutureBooking() {
+        LocalDate today = LocalDate.now();
+        for (Booking booking : bookings) {
+            if (booking.getToDate().isAfter(today) || booking.getToDate().isEqual(today)
+                    || booking.getFromDate().isAfter(today) || booking.getFromDate().isEqual(today))
+                return true;
+        }
+        return false;
+    }
+
     // Getters and Setters
     public Long getId() {
         return id;

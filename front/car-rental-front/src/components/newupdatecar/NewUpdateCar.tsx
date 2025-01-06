@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
-import { Car, CarType, UpsertCar } from "../../types";
-import { createCar, findAllTypes } from "../../api";
-import { useNavigate } from "react-router-dom";
+import { CarType, UpsertCar } from "../../types";
+import { findAllTypes } from "../../api";
 
 type NewUpdateCarProps = {
   car: UpsertCar; // null when we're making a new one
   setCar: React.Dispatch<React.SetStateAction<UpsertCar>>;
-  carId: number | null;
+  handleSubmit: (e: React.FormEvent) => void;
 }
 
-const NewUpdateCar = ({ car, setCar, carId }: NewUpdateCarProps) => {
+const NewUpdateCar = ({ car, setCar, handleSubmit }: NewUpdateCarProps) => {
   const [types, setTypes] = useState<CarType[]>();
-
-  const navigate = useNavigate()
 
   useEffect(() => {
     findAllTypes()
@@ -23,33 +20,6 @@ const NewUpdateCar = ({ car, setCar, carId }: NewUpdateCarProps) => {
         alert(err.mesage);
       });
   }, [types]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (confirm("Submit new vehicle?")) {
-      createCar(car)
-        .then((createdCar: Car) => {
-          alert(`Created car with id: ${createdCar.id}`);
-          setCar(
-            {
-              name: "",
-              brand: "",
-              yearOfConstruction: 0,
-              automatic: true,
-              pricePerDay: 0,
-              active: true,
-              type: { id: 0 },
-            }
-          );
-        })
-        .catch((err) => alert(err.message));
-
-      if (carId) {
-        navigate("/admin/car/" + carId);
-      }
-    }
-  }
 
   return (
     <form className="upsert-car" onSubmit={handleSubmit}>

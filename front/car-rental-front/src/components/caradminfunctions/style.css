@@ -5,3 +5,10 @@
 .car-admin-functions > * {
   margin-right: 2em;
 }
+
+.red-btn {
+  background: darkred;
+}
+.red-btn:hover {
+  background: red;
+}

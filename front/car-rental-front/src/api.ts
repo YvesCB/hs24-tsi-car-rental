@@ -74,6 +74,31 @@ export async function createCar(car: UpsertCar): Promise<Car> {
   return handleJsonResponse(response);
 }
 
+export async function updateCar(car: UpsertCar, carId: number): Promise<Car> {
+  const response = await fetch(baseUrl + "/cars/" + carId, {
+    headers: { "Content-Type": "application/json" },
+    method: "PUT", body: JSON.stringify(car)
+  });
+
+  return handleJsonResponse(response);
+}
+
+export async function activateCar(carId: number): Promise<Car> {
+  const response = await fetch(baseUrl + "/cars/active/" + carId, {
+    method: "PATCH",
+  });
+
+  return handleJsonResponse(response);
+}
+
+export async function deactivateCar(carId: number): Promise<Car> {
+  const response = await fetch(baseUrl + "/cars/inactive/" + carId, {
+    method: "PATCH",
+  });
+
+  return handleJsonResponse(response);
+}
+
 export async function deleteCar(id: number): Promise<void> {
   const response = await fetch(baseUrl + `/cars/${id}`, { method: "DELETE" });
 
