@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Booking, Car } from "../../types";
+import { Booking, Car, UpsertBooking } from "../../types";
 import DatePicker from "react-datepicker";
 import { createBooking } from "../../api";
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css"
 import "./style.css";
-import { daysDifference, filterToDate, getBookedIntervals, getDateWithDayOffset, getTodayDate } from "./carbookingoptions";
+import { filterToDate, getBookedIntervals } from "./carbookingoptions";
+import { daysDifference, getDateWithDayOffset, getTodayDate } from "../../utils";
 
 type CarBookingOptionsProps = {
   car: Car;
@@ -33,7 +34,7 @@ const CarBookingOptions = ({ car }: CarBookingOptionsProps) => {
     e.preventDefault();
     if (selStart && selEnd) {
       if (confirm("Submit this booking?")) {
-        const booking: Omit<Booking, "id"> = {
+        const booking: UpsertBooking = {
           fromDate: selStart,
           toDate: selEnd,
           customerName: name,

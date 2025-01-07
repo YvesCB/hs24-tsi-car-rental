@@ -6,8 +6,8 @@ const HomeAdminFunctions = () => {
     <div className="home-admin-functions">
       <Link to="/admin/newcar"><button>New Car</button></Link>
       <Link to="/admin/types"><button>Vehicle Type Overview</button></Link>
-      <button>Booking Overview</button>
-    </div>
+      <Link to="/admin/bookingoverview"><button>Booking Overview</button></Link >
+    </div >
   );
 }
 

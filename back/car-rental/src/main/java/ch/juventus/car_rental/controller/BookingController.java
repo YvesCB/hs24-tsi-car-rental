@@ -37,7 +37,7 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<BookingDTO> createBooking(@RequestBody BookingDTO request) {
+    public ResponseEntity<BookingDTO> createBooking(@RequestBody BookingCreateDTO request) {
         Booking incoming = Mapper.toEntity(request);
         Booking booking = bookingService.create(incoming, request.getCarId());
         return ResponseEntity.ok(Mapper.toDto(booking));

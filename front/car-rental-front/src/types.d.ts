@@ -25,7 +25,11 @@ export type Booking = {
   fromDate: Date;
   toDate: Date;
   customerName: string;
-  carId: number;
+  car: Omit<Car, "bookings">;
+}
+
+export type UpsertBooking = Omit<Booking, "id" | "car"> & {
+  carId: number,
 }
 
 export type Query = {

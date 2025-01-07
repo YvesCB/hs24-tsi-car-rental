@@ -12,6 +12,7 @@ import TypesOverview from './pages/TypesOverview';
 import NewCar from './pages/NewCar';
 import EditCar from './pages/EditCar';
 import CarBooking from './pages/CarBooking';
+import BookingOverview from './pages/BookingOverview';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="types" element={<TypesOverview />}></Route>
           <Route path="newcar" element={<NewCar />}></Route>
           <Route path="editcar/:carId" element={<EditCar />}></Route>
+          <Route path="bookingoverview" element={<BookingOverview />}></Route>
           <Route path="about" element={<About />}></Route>
           <Route path="privacy" element={<Privacy />}></Route>
           <Route path="terms" element={<Terms />}></Route>

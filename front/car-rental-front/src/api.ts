@@ -126,6 +126,12 @@ export async function deleteType(id: number): Promise<void> {
   return handleResponse(response);
 }
 
+export async function findAllBookings(): Promise<Booking[]> {
+  const response = await fetch(baseUrl + "/bookings");
+
+  return handleJsonResponse(response);
+}
+
 export async function createBooking(booking: UpsertBooking): Promise<Booking> {
   const response = await fetch(baseUrl + "/bookings", {
     headers: { "Content-Type": "application/json" },
@@ -133,4 +139,10 @@ export async function createBooking(booking: UpsertBooking): Promise<Booking> {
   });
 
   return handleJsonResponse(response);
+}
+
+export async function deleteBooking(id: number): Promise<void> {
+  const response = await fetch(baseUrl + `/bookings/force/${id}`, { method: "DELETE" });
+
+  return handleResponse(response);
 }

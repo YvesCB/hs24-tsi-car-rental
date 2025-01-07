@@ -2,19 +2,19 @@ package ch.juventus.car_rental.model;
 
 import java.time.LocalDate;
 
-public class BookingDTO {
+public class BookingCreateDTO {
     private Long id;
     private LocalDate fromDate;
     private LocalDate toDate;
     private String customerName;
-    private CarDTO carDto;
+    private Long carId;
 
-    public BookingDTO(Long id, LocalDate fromDate, LocalDate toDate, String customerName, CarDTO carDto) {
+    public BookingCreateDTO(Long id, LocalDate fromDate, LocalDate toDate, String customerName, Long carId) {
         this.id = id;
         this.fromDate = fromDate;
         this.toDate = toDate;
         this.customerName = customerName;
-        this.carDto = carDto;
+        this.carId = carId;
     }
 
     public Long getId() {
@@ -49,11 +49,11 @@ public class BookingDTO {
         this.customerName = customerName;
     }
 
-    public CarDTO getCar() {
-        return carDto;
+    public Long getCarId() {
+        return carId;
     }
 
-    public void setCar(CarDTO car) {
-        this.carDto = car;
+    public void setCar(Long carId) {
+        this.carId = carId;
     }
 }

@@ -1,0 +1,21 @@
+.booking-info {
+  display: flex;
+  justify-content: space-around;
+}
+
+.input-box {
+  margin-bottom: 1em;
+}
+
+.name-and-btn {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.name-and-btn button {
+  margin-top: 0;
+  margin-bottom: 0;
+  background-color: darkred;
+}
+

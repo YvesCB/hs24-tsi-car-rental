@@ -19,8 +19,8 @@ const Header = () => {
       </nav>
       <div className="admin-mode-container">
         {isAdmin ?
-          <Link to={`${location.pathname.replace("/admin", "")}`}><button>Normal mode</button></Link> :
-          <Link to={`/admin${location.pathname}`}><button>Admin mode</button></Link>
+          <a href={`${location.pathname.replace("/admin", "")}`}><button>Normal mode</button></a> :
+          <a href={`/admin${location.pathname}`}><button>Admin mode</button></a>
         }
       </div>
     </div>
