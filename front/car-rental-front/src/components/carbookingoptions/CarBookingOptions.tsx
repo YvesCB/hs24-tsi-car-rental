@@ -83,8 +83,8 @@ const CarBookingOptions = ({ car }: CarBookingOptionsProps) => {
                 <DatePicker
                   selected={selEnd}
                   required
-                  filterDate={(date) => filterToDate(car, date)}
-                  //filterDate={(date) => filterToDate(car, date) && date >= selStart}
+                  filterDate={(date) => date >= selStart && filterToDate(car, date, selStart)}
+                  //filterDate={(date) => filterToDate(car, date, selStart) && date >= selStart}
                   onChange={(date) => setSelEnd(date ? date : new Date())} />
               </div> :
               null
