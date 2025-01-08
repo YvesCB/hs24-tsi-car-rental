@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import ch.juventus.car_rental.exceptions.HttpStatusException;
 import ch.juventus.car_rental.model.Booking;
-import ch.juventus.car_rental.repository.*;
+import ch.juventus.car_rental.repository.BookingRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -34,16 +34,6 @@ public class BookingService {
         List<Booking> bookings = findAll();
         List<Booking> filteredBookings = bookings.stream().filter((booking) -> {
             return booking.getFromDate().isBefore(end) && booking.getToDate().isAfter(start);
-        }).collect(Collectors.toList());
-
-        return filteredBookings;
-    }
-
-    public List<Booking> findInsideTimeRange(LocalDate start, LocalDate end) {
-        List<Booking> bookings = findAll();
-        List<Booking> filteredBookings = bookings.stream().filter((booking) -> {
-            return booking.getFromDate().isEqual(start) || booking.getFromDate().isBefore(start)
-                    && booking.getToDate().isEqual(end) || booking.getToDate().isBefore(end);
         }).collect(Collectors.toList());
 
         return filteredBookings;

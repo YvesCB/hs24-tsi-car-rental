@@ -97,18 +97,6 @@ class BookingServiceTest {
     }
 
     @Test
-    void testFindInsideTimeRange() {
-        List<Booking> bookings = new ArrayList<>();
-        bookings.add(createBooking(1L, LocalDate.of(2025, 1, 1), LocalDate.of(2025, 1, 5), createCar(1L)));
-        bookings.add(createBooking(2L, LocalDate.of(2025, 1, 3), LocalDate.of(2025, 1, 7), createCar(1L)));
-        when(bookingRepository.findAll()).thenReturn(bookings);
-
-        List<Booking> result = bookingService.findInsideTimeRange(LocalDate.of(2025, 1, 2), LocalDate.of(2025, 1, 4));
-
-        assertEquals(1, result.size());
-    }
-
-    @Test
     void testCreate_Success() {
         Car car = createCar(1L);
         Booking booking = createBooking(null, LocalDate.now(), LocalDate.now().plusDays(1), null);
