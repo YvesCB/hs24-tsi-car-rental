@@ -2,6 +2,8 @@ package ch.juventus.car_rental.model;
 
 import java.time.LocalDate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class BookingCreateDTO {
     private Long id;
     private LocalDate fromDate;
