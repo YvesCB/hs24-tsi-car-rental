@@ -2,10 +2,19 @@ package ch.juventus.car_rental.model;
 
 import java.time.LocalDate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class BookingDTO {
+    @Schema(description = "The id of the Booking", example = "102")
     private Long id;
+
+    @Schema(description = "The start date of the booking", example = "2025-01-01")
     private LocalDate fromDate;
+
+    @Schema(description = "The end date of the booking", example = "2025-01-02")
     private LocalDate toDate;
+
+    @Schema(description = "The name of the customer that booked the car", example = "John Doe")
     private String customerName;
     private CarDTO carDto;
 

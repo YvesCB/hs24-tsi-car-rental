@@ -5,17 +5,23 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @Entity
 public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "The id of the Booking", example = "11")
     private Long id;
 
+    @Schema(description = "The start date of the booking", example = "2025-01-01")
     private LocalDate fromDate;
 
+    @Schema(description = "The end date of the booking", example = "2025-01-02")
     private LocalDate toDate;
 
+    @Schema(description = "The name of the customer that booked the car", example = "John Doe")
     private String customerName;
 
     @ManyToOne

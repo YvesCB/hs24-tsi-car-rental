@@ -23,7 +23,7 @@ public class Mapper {
 
     public static Booking toEntity(BookingCreateDTO bookingDto) {
         Booking booking = new Booking();
-        booking.setId(bookingDto.getId());
+        booking.setId(null);
         booking.setFromDate(bookingDto.getFromDate());
         booking.setToDate(bookingDto.getToDate());
         booking.setCustomerName(bookingDto.getCustomerName());

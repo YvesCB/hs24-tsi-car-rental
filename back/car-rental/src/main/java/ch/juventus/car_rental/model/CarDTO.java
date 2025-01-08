@@ -1,17 +1,27 @@
 package ch.juventus.car_rental.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class CarDTO {
 
+    @Schema(description = "The id of the car", example = "9")
     private Long id;
 
+    @Schema(description = "The name of the car", example = "Model S")
     private String name;
+    @Schema(description = "The brand of the car", example = "Tesla")
     private String brand;
+    @Schema(description = "The year of construction of the car", example = "2015")
     private int yearOfConstruction;
+    @Schema(description = "The price per day of the car", example = "4000")
     private int pricePerDay;
 
+    @Schema(description = "Gearbox automaitic", example = "true")
     private boolean automatic;
+    @Schema(description = "Car active", example = "true")
     private boolean active;
 
+    @Schema(description = "The type of the car")
     private CarType type;
 
     public CarDTO(Long id, String name, String brand, int yearOfConstruction, int pricePerDay, boolean automatic,

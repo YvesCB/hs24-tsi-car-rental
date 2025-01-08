@@ -5,27 +5,17 @@ import java.time.LocalDate;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class BookingCreateDTO {
-    private Long id;
+    @Schema(description = "Start date of the booking", example = "2025-01-08")
     private LocalDate fromDate;
+
+    @Schema(description = "End date of the booking", example = "2025-01-10")
     private LocalDate toDate;
+
+    @Schema(description = "Name of the customer", example = "John Doe")
     private String customerName;
+
+    @Schema(description = "ID of the car to book", example = "123")
     private Long carId;
-
-    public BookingCreateDTO(Long id, LocalDate fromDate, LocalDate toDate, String customerName, Long carId) {
-        this.id = id;
-        this.fromDate = fromDate;
-        this.toDate = toDate;
-        this.customerName = customerName;
-        this.carId = carId;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public LocalDate getFromDate() {
         return fromDate;

@@ -1,5 +1,6 @@
 package ch.juventus.car_rental.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,9 +11,12 @@ public class CarType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "The id of the CarType", example = "33")
     private Long id;
 
+    @Schema(description = "The name of the type", example = "SUV")
     private String name;
+    @Schema(description = "The description of the type", example = "Sports Utility Vehicle")
     private String description;
 
     public boolean compare(CarType other) {

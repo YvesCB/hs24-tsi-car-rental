@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,21 +12,30 @@ public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Car id", example = "24")
     private Long id;
 
+    @Schema(description = "The name of the car", example = "Model S")
     private String name;
+    @Schema(description = "The brand of the car", example = "Tesla")
     private String brand;
+    @Schema(description = "The year of construction of the car", example = "2015")
     private int yearOfConstruction;
+    @Schema(description = "The price per day of the car", example = "4000")
     private int pricePerDay;
 
+    @Schema(description = "Gearbox automaitic", example = "true")
     private boolean automatic;
+    @Schema(description = "Car active", example = "true")
     private boolean active;
 
     @ManyToOne
     @JoinColumn(name = "type_id") // Foreign key column in Car table
+    @Schema(description = "Type of car")
     private CarType type;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Schema(description = "Bookings of the car")
     private List<Booking> bookings = new ArrayList<>();
 
     public boolean compare(Car other) {
