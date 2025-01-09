@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class BookingService {
+    Logger logger = LoggerFactory.getLogger(BookingService.class);
+
     private final BookingRepository bookingRepository;
     private final CarService carService;
 
@@ -67,7 +71,9 @@ public class BookingService {
         // Save the booking if validations pass
         carService.existsById(booking.getCar().getId());
 
-        return bookingRepository.save(booking);
+        Booking newbooking = bookingRepository.save(booking);
+        logger.info("Created new Booking. ID: " + newbooking.getId() + " for CarID: " + newbooking.getCar().getId());
+        return newbooking;
     }
 
     public void delete(Long id) {
@@ -79,10 +85,12 @@ public class BookingService {
             throw new HttpStatusException(HttpStatus.BAD_REQUEST,
                     "Only future bookings can be deleted for consistancy.");
         }
+        logger.info("Deleted Booking. ID: " + id);
     }
 
     public void forceDelete(Long id) {
         Booking booking = findById(id);
         bookingRepository.delete(booking);
+        logger.info("Deleted Booking. ID: " + id);
     }
 }

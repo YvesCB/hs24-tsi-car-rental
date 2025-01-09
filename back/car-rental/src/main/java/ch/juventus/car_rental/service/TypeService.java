@@ -2,17 +2,22 @@ package ch.juventus.car_rental.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import ch.juventus.car_rental.exceptions.HttpStatusException;
 import ch.juventus.car_rental.model.Car;
 import ch.juventus.car_rental.model.CarType;
-import ch.juventus.car_rental.repository.*;
+import ch.juventus.car_rental.repository.CarRepository;
+import ch.juventus.car_rental.repository.TypeRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class TypeService {
+    Logger logger = LoggerFactory.getLogger(TypeService.class);
+
     private final TypeRepository typeRepository;
     private final CarRepository carRepository;
 
@@ -37,7 +42,9 @@ public class TypeService {
                         "Name and Description cannot all overlap with existing type.");
             }
         }
-        return typeRepository.save(type);
+        CarType newCarType = typeRepository.save(type);
+        logger.info("New CarType created. ID: " + newCarType.getId());
+        return newCarType;
     }
 
     public CarType update(Long id, CarType typeDetails) {
@@ -46,7 +53,9 @@ public class TypeService {
         type.setName(typeDetails.getName());
         type.setDescription(typeDetails.getDescription());
 
-        return typeRepository.save(type);
+        CarType updatedCarType = typeRepository.save(type);
+        logger.info("CarType updated. ID: " + updatedCarType.getId());
+        return updatedCarType;
     }
 
     public void delete(Long id) {
@@ -58,6 +67,7 @@ public class TypeService {
                         "Only types that are assigned to no cars can be deleted.");
             }
         }
+        logger.info("CarType deleted. ID: " + id);
         typeRepository.delete(type);
     }
 }

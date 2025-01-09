@@ -2,17 +2,20 @@ package ch.juventus.car_rental.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import ch.juventus.car_rental.exceptions.HttpStatusException;
 import ch.juventus.car_rental.model.Car;
 import ch.juventus.car_rental.model.CarType;
-import ch.juventus.car_rental.repository.*;
+import ch.juventus.car_rental.repository.CarRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class CarService {
+    Logger logger = LoggerFactory.getLogger(CarService.class);
 
     private final CarRepository carRepository;
     private final TypeService typeService;
@@ -55,7 +58,10 @@ public class CarService {
                         "Name, Type and Brand cannot all overlap with existing car.");
             }
         }
-        return carRepository.save(car);
+
+        Car newCar = carRepository.save(car);
+        logger.info("Created new car. ID: " + newCar.getId());
+        return newCar;
     }
 
     public Car update(Long id, Car carDetails) {
@@ -78,14 +84,18 @@ public class CarService {
             car.setType(type);
         }
 
-        return carRepository.save(car);
+        Car updatedCar = carRepository.save(car);
+        logger.info("Updated car. ID: " + updatedCar.getId());
+        return updatedCar;
     }
 
     public Car active(Long id) {
         Car car = findById(id);
         car.setActive(true);
 
-        return carRepository.save(car);
+        Car updatedCar = carRepository.save(car);
+        logger.info("Activated car. ID: " + updatedCar.getId());
+        return updatedCar;
     }
 
     public Car inActive(Long id) {
@@ -96,7 +106,9 @@ public class CarService {
         }
         car.setActive(false);
 
-        return carRepository.save(car);
+        Car updatedCar = carRepository.save(car);
+        logger.info("Activated car. ID: " + updatedCar.getId());
+        return updatedCar;
     }
 
     public void delete(Long id) {
@@ -105,6 +117,8 @@ public class CarService {
             throw new HttpStatusException(HttpStatus.BAD_REQUEST,
                     "A car with existing bookings cannot be deleted. Deactive it instead.");
         }
+
+        logger.info("Deleted car. ID: " + id);
         carRepository.delete(car);
     }
 
