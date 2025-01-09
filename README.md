@@ -18,3 +18,6 @@ The project contains the front and back end for a car rental web platform. To sp
 The backend is a [Java Spring REST Server](https://spring.io/) and the frontend is a [React](https://react.dev/) app, written in [TypeScript](https://www.typescriptlang.org/) and built with [Vite](https://vite.dev/).
 
 The platform allows for users to rent vehicles and for an admin to change the data of the vehicles and administer the bookings.
+
+### Documentation
+When running the back end with `mvn spring-boot:run`, API documentation can be accessed via [a local swagger-ui instance](http://localhost:8080/swagger-ui/index.html).
