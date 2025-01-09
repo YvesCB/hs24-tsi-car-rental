@@ -1,53 +1,32 @@
 #!/bin/bash
 
-# Base API URLs
-TYPE_API="http://localhost:8080/api/types"
-VEHICLE_API="http://localhost:8080/api/cars" # Adjust this if the "Car" entity has been renamed
+# Define API endpoints
+TYPES_ENDPOINT="http://localhost:8080/api/types"
+CARS_ENDPOINT="http://localhost:8080/api/cars"
 
-# Create types
-echo "Creating types..."
-TYPES=("Rover" "Lander" "Orbiter" "Drone" "Transfer Vehicle")
-for TYPE in "${TYPES[@]}"; do
-    curl -s -X POST -H "Content-Type: application/json" -d "{\"name\": \"$TYPE\", \"description\": \"$TYPE type vehicle\"}" "$TYPE_API" > /dev/null
-done
+# Create car types
+echo "Creating car types..."
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Rover", "descript": "Exploration vehicles for rough terrains."}' $TYPES_ENDPOINT
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Drone", "descript": "Flying machines for aerial exploration."}' $TYPES_ENDPOINT
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Lander", "descript": "Stationary vehicles for scientific experiments."}' $TYPES_ENDPOINT
 
-echo "Types created."
+# Create cars (Mars missions)
+echo "Creating cars..."
+# Rovers
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Sojourner", "brand": "NASA", "yearOfConstruction": 1997, "automatic": true, "pricePerDay": 1000, "active": true, "type": {"id": 1}}' $CARS_ENDPOINT
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Spirit", "brand": "NASA", "yearOfConstruction": 2004, "automatic": true, "pricePerDay": 1200, "active": true, "type": {"id": 1}}' $CARS_ENDPOINT
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Curiosity", "brand": "NASA", "yearOfConstruction": 2012, "automatic": true, "pricePerDay": 1500, "active": true, "type": {"id": 1}}' $CARS_ENDPOINT
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Perseverance", "brand": "NASA", "yearOfConstruction": 2021, "automatic": true, "pricePerDay": 2000, "active": true, "type": {"id": 1}}' $CARS_ENDPOINT
+curl -X POST -H "Content-Type: application/json" -d '{"name": "ExoMars Rover (Rosalind Franklin)", "brand": "ESA", "yearOfConstruction": 2023, "automatic": true, "pricePerDay": 1800, "active": true, "type": {"id": 1}}' $CARS_ENDPOINT
 
-# Type IDs (order matters)
-ROVER_ID=1
-LANDER_ID=2
-ORBITER_ID=3
-DRONE_ID=4
-TRANSFER_VEHICLE_ID=5
+# Drones
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Ingenuity", "brand": "NASA", "yearOfConstruction": 2021, "automatic": true, "pricePerDay": 800, "active": true, "type": {"id": 2}}' $CARS_ENDPOINT
 
-# List of Mars exploration vehicles with actual years
-VEHICLES=(
-    '{"name": "Perseverance", "brand": "NASA", "type": {"id": '$ROVER_ID'}, "yearOfConstruction": 2020}'
-    '{"name": "Curiosity", "brand": "NASA", "type": {"id": '$ROVER_ID'}, "yearOfConstruction": 2011}'
-    '{"name": "Spirit", "brand": "NASA", "type": {"id": '$ROVER_ID'}, "yearOfConstruction": 2003}'
-    '{"name": "Opportunity", "brand": "NASA", "type": {"id": '$ROVER_ID'}, "yearOfConstruction": 2003}'
-    '{"name": "Sojourner", "brand": "NASA", "type": {"id": '$ROVER_ID'}, "yearOfConstruction": 1996}'
-    '{"name": "Ingenuity", "brand": "NASA", "type": {"id": '$DRONE_ID'}, "yearOfConstruction": 2020}'
-    '{"name": "Phoenix", "brand": "NASA", "type": {"id": '$LANDER_ID'}, "yearOfConstruction": 2007}'
-    '{"name": "Viking 1", "brand": "NASA", "type": {"id": '$LANDER_ID'}, "yearOfConstruction": 1975}'
-    '{"name": "Viking 2", "brand": "NASA", "type": {"id": '$LANDER_ID'}, "yearOfConstruction": 1975}'
-    '{"name": "Mars Express", "brand": "ESA", "type": {"id": '$ORBITER_ID'}, "yearOfConstruction": 2003}'
-    '{"name": "Beagle 2", "brand": "ESA", "type": {"id": '$LANDER_ID'}, "yearOfConstruction": 2003}'
-    '{"name": "Rosalind Franklin", "brand": "ESA", "type": {"id": '$ROVER_ID'}, "yearOfConstruction": 2022}'
-    '{"name": "Zhurong", "brand": "CNSA", "type": {"id": '$ROVER_ID'}, "yearOfConstruction": 2021}'
-    '{"name": "Tianwen-1", "brand": "CNSA", "type": {"id": '$ORBITER_ID'}, "yearOfConstruction": 2020}'
-    '{"name": "Mars Polar Lander", "brand": "NASA", "type": {"id": '$LANDER_ID'}, "yearOfConstruction": 1999}'
-    '{"name": "Pathfinder", "brand": "NASA", "type": {"id": '$ROVER_ID'}, "yearOfConstruction": 1996}'
-    '{"name": "Red Pioneer", "brand": "Fictional Agency", "type": {"id": '$TRANSFER_VEHICLE_ID'}, "yearOfConstruction": 2030}'
-    '{"name": "Stellar Scout", "brand": "Fictional Agency", "type": {"id": '$ORBITER_ID'}, "yearOfConstruction": 2035}'
-    '{"name": "Ares Pathfinder", "brand": "Fictional Agency", "type": {"id": '$ROVER_ID'}, "yearOfConstruction": 2028}'
-    '{"name": "Cosmos Voyager", "brand": "Fictional Agency", "type": {"id": '$TRANSFER_VEHICLE_ID'}, "yearOfConstruction": 2032}'
-)
+# Landers
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Viking 1", "brand": "NASA", "yearOfConstruction": 1976, "automatic": true, "pricePerDay": 1000, "active": true, "type": {"id": 3}}' $CARS_ENDPOINT
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Viking 2", "brand": "NASA", "yearOfConstruction": 1976, "automatic": true, "pricePerDay": 1100, "active": true, "type": {"id": 3}}' $CARS_ENDPOINT
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Phoenix", "brand": "NASA", "yearOfConstruction": 2008, "automatic": true, "pricePerDay": 1300, "active": true, "type": {"id": 3}}' $CARS_ENDPOINT
+curl -X POST -H "Content-Type: application/json" -d '{"name": "InSight", "brand": "NASA", "yearOfConstruction": 2018, "automatic": true, "pricePerDay": 1400, "active": true, "type": {"id": 3}}' $CARS_ENDPOINT
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Schiaparelli EDM", "brand": "ESA", "yearOfConstruction": 2016, "automatic": true, "pricePerDay": 1250, "active": true, "type": {"id": 3}}' $CARS_ENDPOINT
 
-# Create vehicles with correct years and types
-echo "Creating vehicles..."
-for VEHICLE_DATA in "${VEHICLES[@]}"; do
-    curl -s -X POST -H "Content-Type: application/json" -d "$VEHICLE_DATA" "$VEHICLE_API" > /dev/null
-done
-
-echo "Vehicles created successfully!"
+echo "Data population complete!"

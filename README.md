@@ -10,6 +10,7 @@ Multi repo for frontend and backend of the car rental project
 2. Start the backend server with Maven: `mvn spring-boot:run`
 3. Enter into the frontend root `./front/car-rental-front/` and run `npm install`.
 4. Start the front end server with npm: `npm run dev` or `npm build && npm preview`.
+5. To get some data to test with the `./back/car-rental/populate_data.sh` can be used.
 
 ## Overview
 The project contains the front and back end for a car rental web platform. To spice things up, the frontend is designed to feature Mars vehicles like rovers and drones instead. But the Back end allows for any generic "Car" details to be input.
